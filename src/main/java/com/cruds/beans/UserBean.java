@@ -1,9 +1,22 @@
 package com.cruds.beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Users")
 public class UserBean {
-	String userType;
+	@Id
+	@Column(name = "userId")
 	String userName;
+	@Column(name = "userType")
+	String userType;
+	@Column(name = "password")
 	String password;
+	UserBean(){
+	}
 	public UserBean(String userType, String userName, String password) {
 		super();
 		this.userType = userType;

@@ -10,12 +10,12 @@
 <h1>
 	Hello! ${USER}
 </h1>
-<form action="/schedule.html/?user=${USER}" method="post">
+<form action="schedule.html/?user=${USER}" method="post">
 <input type="submit" value="View Appointment">
 </form>
-<form action="/patient.html" method="post">
-<input type="text" placeholder="Enter Your Ailment Details">
-<input type="date" placeholder="Enter Preferred Date">
+<form action="appoint.html" method="post">
+<input type="hidden" name="user" value="${USER}">
+<input type="text" name="ailment" placeholder="Enter Your Ailment Details">
 <br>
 <input type="submit" value="Request Appointment">
 </form>
