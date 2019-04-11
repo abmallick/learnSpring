@@ -8,10 +8,9 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import com.cruds.beans.PatientBean;
-import com.cruds.beans.UserBean;
+import com.cruds.beans.ScheduleBean;
 
-public class PatientDAO implements PatientDAOInterface<PatientBean, String>{
+public class ScheduleDAO implements ScheduleDAOInterface<ScheduleBean, String>{
 
 	private Session currentSession;
     private Transaction currentTransaction;
@@ -37,7 +36,7 @@ public class PatientDAO implements PatientDAOInterface<PatientBean, String>{
     }
      
     private static SessionFactory getSessionFactory() {
-        Configuration configuration = new Configuration().configure().addAnnotatedClass(PatientBean.class);
+        Configuration configuration = new Configuration().configure().addAnnotatedClass(ScheduleBean.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
         SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
         return sessionFactory;
@@ -59,30 +58,30 @@ public class PatientDAO implements PatientDAOInterface<PatientBean, String>{
         this.currentTransaction = currentTransaction;
     }
  
-	public void persist(PatientBean entity) {
+	public void persist(ScheduleBean entity) {
 		getCurrentSession().save(entity);
 		
 	}
 
-	public void update(PatientBean entity) {
+	public void update(ScheduleBean entity) {
 		getCurrentSession().update(entity);
 		
 	}
 
-	public void delete(PatientBean entity) {
+	public void delete(ScheduleBean entity) {
 		getCurrentSession().delete(entity);
 		
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<PatientBean> listAll() {
-		List<PatientBean> patient = (List<PatientBean>) getCurrentSession().createQuery("from PatientBean").getResultList();
-		return patient;
+	public List<ScheduleBean> listAll() {
+		List<ScheduleBean> schedule = (List<ScheduleBean>) getCurrentSession().createQuery("from Schdule");
+		return schedule;
 	}
 
-	public PatientBean findById(String id) {
-		PatientBean patient = (PatientBean) getCurrentSession().get(PatientBean.class, id);
-		return patient;
+	public ScheduleBean findById(String id) {
+		ScheduleBean schedule = (ScheduleBean) getCurrentSession().get(ScheduleBean.class, id);
+		return schedule;
 	}
 
 }

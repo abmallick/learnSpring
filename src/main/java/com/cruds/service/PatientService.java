@@ -8,7 +8,7 @@ import com.cruds.dao.PatientDAO;
 
 public class PatientService {
 
-private static PatientDAO patientDAO;
+	private static PatientDAO patientDAO;
 	
 	public PatientService() {
 		patientDAO = new PatientDAO();

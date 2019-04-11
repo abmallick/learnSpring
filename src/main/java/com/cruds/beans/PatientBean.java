@@ -15,6 +15,8 @@ public class PatientBean {
 	String patientName;
 	@Column(name="ailmentDetails")
 	String ailmentDetails;
+	public PatientBean() {
+	}
 	public PatientBean(String patientId, String patientName, String ailmentDetails) {
 		super();
 		this.patientId = patientId;

@@ -10,7 +10,8 @@
 <h1>
 	Hello! ${USER}
 </h1>
-<form action="schedule.html/?user=${USER}" method="post">
+<form action="schedule.html" method="post">
+<input type="hidden" name="user" value="${USER}">
 <input type="submit" value="View Appointment">
 </form>
 <form action="appoint.html" method="post">

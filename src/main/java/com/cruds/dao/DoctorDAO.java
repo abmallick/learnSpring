@@ -74,7 +74,7 @@ public class DoctorDAO implements DoctorDAOInterface<DoctorBean, String> {
 
 	@SuppressWarnings("unchecked")
 	public List<DoctorBean> listAll() {
-		List<DoctorBean> doctors = (List<DoctorBean>) getCurrentSession().createQuery("from Doctor");
+		List<DoctorBean> doctors = (List<DoctorBean>) getCurrentSession().createQuery("from DoctorBean").getResultList();
 		return doctors;
 	}
 
