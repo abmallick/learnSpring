@@ -5,83 +5,65 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.cruds.beans.PatientBean;
-import com.cruds.beans.UserBean;
-
+@Repository
 public class PatientDAO implements PatientDAOInterface<PatientBean, String>{
 
-	private Session currentSession;
-    private Transaction currentTransaction;
-    
-    public Session openCurrentSession() {
-        currentSession = getSessionFactory().openSession();
-        return currentSession;
-    }
- 
-    public Session openCurrentSessionwithTransaction() {
-        currentSession = getSessionFactory().openSession();
-        currentTransaction = currentSession.beginTransaction();
-        return currentSession;
-    }
-     
-    public void closeCurrentSession() {
-        currentSession.close();
-    }
-     
-    public void closeCurrentSessionwithTransaction() {
-        currentTransaction.commit();
-        currentSession.close();
-    }
-     
-    private static SessionFactory getSessionFactory() {
-        Configuration configuration = new Configuration().configure().addAnnotatedClass(PatientBean.class);
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-        SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-        return sessionFactory;
-    }
- 
-    public Session getCurrentSession() {
-        return currentSession;
-    }
- 
-    public void setCurrentSession(Session currentSession) {
-        this.currentSession = currentSession;
-    }
- 
-    public Transaction getCurrentTransaction() {
-        return currentTransaction;
-    }
- 
-    public void setCurrentTransaction(Transaction currentTransaction) {
-        this.currentTransaction = currentTransaction;
-    }
- 
+	@Autowired
+	private SessionFactory sessionFactory;
+	
 	public void persist(PatientBean entity) {
-		getCurrentSession().save(entity);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.save(entity);
+		tx.commit();
+		session.close();
 		
 	}
 
 	public void update(PatientBean entity) {
-		getCurrentSession().update(entity);
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.update(entity);
+		tx.commit();
+		session.close();		
 		
 	}
 
-	public void delete(PatientBean entity) {
-		getCurrentSession().delete(entity);
+	public void delete(String patientId) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		PatientBean pb =  session.load(PatientBean.class, patientId);
+		session.delete(pb);
+		tx.commit();
+		session.close();		
 		
 	}
+	
+	public void delete(PatientBean entity) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.delete(entity);
+		tx.commit();
+		session.close();		
+		
+	}	
 
 	@SuppressWarnings("unchecked")
 	public List<PatientBean> listAll() {
-		List<PatientBean> patient = (List<PatientBean>) getCurrentSession().createQuery("from PatientBean").getResultList();
+		Session session = sessionFactory.openSession();
+
+		List<PatientBean> patient = (List<PatientBean>) session.createQuery("from PatientBean").getResultList();
 		return patient;
 	}
 
 	public PatientBean findById(String id) {
-		PatientBean patient = (PatientBean) getCurrentSession().get(PatientBean.class, id);
+		Session session = sessionFactory.openSession();
+
+		PatientBean patient = (PatientBean) session.get(PatientBean.class, id);
 		return patient;
 	}
 

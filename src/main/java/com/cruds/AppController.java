@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,18 +27,21 @@ import com.cruds.service.UserService;
 @RequestMapping("/")
 public class AppController {
 	
+	@Autowired
+	private PatientService patientService;
 	@RequestMapping(value = "/greet.html", method = RequestMethod.GET)
 	public String sayHello() {
 		return "welcome";
 	}
 	
 	@RequestMapping(value = "/greet.html", method = RequestMethod.POST)
-	public ModelAndView processHello(@RequestParam("username") String name, @RequestParam("password") String password) {
+	public ModelAndView processHello(@RequestParam("username") String name, @RequestParam("password") String password, HttpSession session) {
 		UserService us = new UserService();
 		String type = us.authenticate(name, password);
 		if(type.contentEquals("admin")) {
-				PatientService ps = new PatientService();
-				List<PatientBean> patients = ps.listAll();
+			session.setAttribute("user", name);
+				
+				List<PatientBean> patients = patientService.listAll();
 				DoctorService ds = new DoctorService();
 				List<DoctorBean> doctors = ds.listAll();
 				Map<String, Object> params = new HashMap<String, Object>();

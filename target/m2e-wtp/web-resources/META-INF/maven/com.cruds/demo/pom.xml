@@ -29,6 +29,15 @@
     <artifactId>spring-webmvc</artifactId>
     <version>4.0.3.RELEASE</version>
 </dependency>
+
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-orm</artifactId>
+    <version>4.0.3.RELEASE</version>
+</dependency>
+
+
 <!-- https://mvnrepository.com/artifact/jstl/jstl -->
 <dependency>
     <groupId>jstl</groupId>
